@@ -1,0 +1,1119 @@
+SCHOOL OF ENGINEERING AND TECHNOLOGY
+DEPARTMENT OF INDUSTRIAL AND MANUFACTURING ENGINEERING
+DEVELOPMENT OF A PREDICTIVE CONTROL SYSTEM FOR THE DECANTER CENTRIFUGE FOR OLIVE OIL EXTRACTION
+BY
+CHINYERERE TSITSI.T
+H220422M
+SUPERVISOR: PROFESSOR CHITEKA
+A FOURTH YEAR PROJECT REPORT SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS OF A BACHELOR OF TECHNOLOGY (HONOURS) DEGREE IN INDUSTRIAL AND MANUFACTURING ENGINEERING
+2026
+COPYRIGHTS
+All rights reserved. No part of this research may be reproduced, stored in any retrieval system, or transmitted in any means, electronic, mechanical, photocopying, recording, for purpose, without the prior written permission of the author.
+DECLARATION
+This design project is my original effort except where sources have been acknowledged. The
+work has never been submitted anywhere, nor will it ever be, to another University/Institute in
+the awarding of a degree in any faculty.
+Harare institute of Technology
+Department of Industrial and Manufacturing Engineering
+P.O. Box Be277
+Belvedere
+Harare
+Zimbabwe
+TSITSI TINOPONA CHINYERERE H220422M
+Signature…………………………………….
+Date Signed………………………………….
+Supervisor: PROFESSOR K. CHITEKA
+Signature……………………………………….
+Date Signed…………………………………….
+DEDICATION
+This project is dedicated to my family and friends then my supervisor who sacrificed his
+precious time in order to help me complete this project, finally, the Almighty God who gave
+me strength and wisdom to do the project.
+ACKNOWLEDGEMENTS
+First and foremost, I would like to express my sincere gratitude to my project supervisor, Prof Chiteka and the whole Industrial and Manufacturing (IME) department for their assistance, cooperation and advice in putting together this project. I also would like to thank
+my friends and classmates for giving me assistance and working relentlessly with me to shape
+up this project. Again, I thank God who made it all possible.
+ABSTRACT
+Table of Contents
+1CHAPTER 1: INTRODUCTION8
+1.1Introduction8
+1.2Problem background8
+1.3Problem statement9
+1.4Aim9
+1.5Objectives9
+1.6Justification10
+1.7Scope11
+1.8Research questions11
+1.9Project deliverables11
+1.10Conclusion11
+2CHAPTER 2: LITERATURE REVIEW13
+2.1Introduction13
+2.2Types of decanter centrifuges13
+2.2.1Two phase decanter centrifuge13
+2.2.2Three-phase decanter centrifuge14
+2.2.3Horizontal decanter centrifuge15
+2.2.4Vertical Decanter and Vertical Centrifuge Variants17
+2.3Decanter centrifuge in olive oil extraction18
+2.3.1Two phase vs three phase operation in olive oil extraction19
+2.3.2Modeling Energy Consumption, Efficiency & Structural Considerations22
+2.3.3Intelligent control, adaptive operation and digital twins24
+2.3.4Key Design Parameters and Their Influence on Performance25
+2.4Research gap analysis26
+2.5Conclusion27
+3CHAPTER 3: RESEARCH METHODOLOGY29
+3.1Introduction29
+3.2Qualitative and quantitative methods29
+3.2.1Computer Aided Design (CAD) Modelling29
+3.2.2Analysis of Computational Fluid Dynamics (CFD)31
+3.2.3Finite Element Analysis (FEA)32
+3.2.4Design of Experiments33
+3.2.5Development of the Surrogate Model33
+3.2.6Multi-Objective Optimisation34
+3.2.7Adaptive Control and Model Predictive Control (MPC)34
+3.3Conclusion35
+4CHAPTER 4: CONCEPTUAL DESIGN AND CONCEPT SELECTION36
+4.1Introduction36
+4.2Design requirements and constraints36
+4.3Concept generation approach37
+4.4Concept 1: Digital Twin–Based Predictive Control System38
+4.5Concept 2: Load-Responsive Smart Energy Control System40
+4.6Concept 3: Feedforward–Feedback Hybrid Control System43
+4.7Concept 4: Integrated Intelligent Control and Energy Optimisation System45
+4.8Concept evaluation and selection47
+4.8.1Concept screening47
+4.8.2Concept scoring48
+4.8.3Selected concept and justification50
+Table of figures
+Figure 2.1: Two phase decanter centrifuge(2 Phase Decanter – Centridec Separation Technologies, n.d.)16
+Figure 2.2: Three-phase decanter centrifuge (“3 Phase Decanter Centrifuge - GN Solids Control,” n.d.)17
+Figure 2.3: Horizontal decanter centrifuge (“Horizontal Decanter Centrifuge (Flottweg, n.d.) | Download Scientific Diagram,” n.d.)19
+Figure 2.4: Vertical decanter centrifuge (“About Decanter Centrifuge | Machinery Equipment | TOMOE Engineering Co.,Ltd.,” n.d.)20
+Figure 4.1: Concept 140
+Figure 4.2: Concept 242
+Figure 4.3:Concept 345
+Figure 4.4: Concept 447
+Table 41: Design requirements and constraints39
+Table 42: Concept screening table50
+Table 43: Concept scoring table52
+CHAPTER 1: INTRODUCTION
+Introduction
+In modern process industries, separation of liquids and solids is a fundamental operation that impacts product quality, efficiency of processes and compliance with environmental regulations. The decanter centrifuge is a preferred separation method from amongst other separation processes. This is because of its ability to handle large volumes of slurry continuously without the need of manual intervention. It uses the principle of centrifugation and gravity to separate solids and liquids. Its applications range from waste water treatment, food, pharmaceuticals to mineral processing. Design and operation of decanter centrifuges have used the same approach with incremental improvements for the last several decades. There are a number of performance constraints that limit the use of this technology. Most of the systems have fixed geometries and control parameters which do not adapt to changes in the feed parameters (solid concentration, viscosity) and result in low separation efficiency, increased energy consumption and rapid mechanical wear. As industries are in need of intelligent and sustainable centrifuge systems, the ability of the systems to self-optimize and adjust to the process will be in higher demand.
+Problem background
+The decanter centrifuge plays a key role in industrial extraction of olive oil, but is heavily dependent on feed composition variability. This includes olive paste viscosity, solid–liquid ratio and moisture content. The decanter centrifuge serves to make a separation of micro-sized particles that do not settle or settle very slowly in the gravity field of the earth. Such variability influences olive cultivar, ripeness and malaxation conditions and increases the energy demand and reduces oil recovery efficiency (Altieri et al. 2013). In a typical industrial process, the changes in solid to liquid ratio of olive paste are reported to be about 20–25% from the beginning to the end of a decanter feeding cycle. This in turn led to a reduction of oil recovery efficiency of about 3–6 % (Guerrini et al. 2017). With stable feeding conditions, traditional horizontal centrifuges achieve oil recovery efficiency (ηₒ) of 86-91% (Tamborrino et al. 2015), and if, for example, paste moisture or viscosity does not align with design parameters, that efficiency can drop under 80 (Altieri 2010). Higher moisture content in olive paste causes dilution of the oil phase and leads to lower efficiency of phase separation, resulting in the pomace containing 5-7% (mass) oil, whereas an optimal target is around 2-3% (Guerrini et al. 2017). These losses, most especially from an economic standpoint, highlight the urgent need for advanced control systems that manage feed variability.
+Energy usage is one more important constraint. Typical industrial decanter centrifuges have an energy consumption of 2.5 - 4.5 kWh per ton of olive paste processed(Bianchi et al. 2013). In cases of feed variability, power consumption can increase by 25-35% due to the torque changes in the screw conveyor caused by the presence of heterogeneous olive paste (Tamborrino et al. 2019). Simulation studies have identified screw speed and the speed differential between the bowl and the screw conveyor as the most critical variables for energy consumption and recovery flows. Current engineered decanter systems still do not possess real time feedback controls and thus cannot react to rapid fluctuations in feed rheology leading to unnecessary energy consumption and a more unstable yield.
+Additionally, (Altieri 2010) found that relative feed dilution coefficients greater than 0.3 (water/paste) resulted in lower oil recovery and a higher pomace water content which diminished throughput efficiency. In high-throughput systems (>5000 kg•h⁻¹), (Tamborrino et al. 2015) found that in order to maintain separation efficiency above 88%, there had to be adjustments to the bowl differential speed and oil/water ring levels, which is not reasonable in feed environments that are prone to variability. Changes in feed rheology affect both the energy and oil yield, and negatively impact the processing economics and sustainability.
+Problem statement
+Traditional decanter centrifuges use reactive control strategies, where operational parameters are modified only after disturbances in the feed properties have already influenced performance. This reactive strategy leads to transitory separation efficiency losses, higher energy use, and unstable torque.
+Aim 
+To design a predictive control system for a decanter centrifuge that predicts feed variations and automatically modifies operating parameters to control separation efficiency and minimize energy usage.
+Objectives
+To develop a predictive model that relates feed variability to decanter centrifuge performance indicators such as oil recovery efficiency, torque demand and energy consumption.
+To design an adaptive control system that dynamically regulates bowl speed, differential speed and feed rate in order to maintain oil recovery efficiency at or above 95% under varying feed conditions.
+To integrate a load responsive power control system into the centrifuge that minimizes specific energy consumption from 4.5Kwh/t to 3.0kWh/t.
+Justification
+The challenges posed by flexibility control during operation on mechanical separation is cost-related. There are many variables affecting the raw feed input. For example, the olive oil extraction feed composition changes during the extraction operation. According to the olive oil extraction systems, the feed input composition of the extraction system is non-uniform. In decanter centrifuge, the determination of the friction coefficients is done empirically, therefore it will result in low flexibility to control the variables affecting the system response, leading to suboptimal operation. This will result in the low quality and high energy consumption, reducing the operational cost, not the system's reliability. Waste oil is hazardous and costly to remove. In oil separation, low operational efficiency will result in low separation and high operational cost. Waste products will contain valuable excess oil. This is due to high cost of raw materials and high competition leading to low oil separation efficiency. Improving oil separation operation will improve the operational costs of the unit.  This will in turn lead to improved overall oil extraction recovery. There will be a high overall recovery leading to improved performance and efficiency in oil extraction operation. This can be observed in when oil waste is stream flowing from the unit during separation operational stage, representing valuable excess oil. The energy cost has also increased due to oil extraction operational activities.
+Operational studies indicate that the costs of energy of a facility is one of the main costs of a facility, especially when operational centrifuges are in underperformance. While the addition of variable frequency drives and high efficiency motors have been introduced, more improvement is still needed. Most of these measures focus on how to improve motor efficiency, rather than the more mechanical, process, or operational inefficiencies that underlie these problems. Automation, smart control and data-driven process optimisation are the really the future of modern food processing. Traditional centrifuges have been operated by means of some control feedback strategies that require a lot of time to react to a set of disturbances. This means they have a limited ability to respond to and control complex process change and feed material. The addition of and use of control adaptive and predictive control in industrial processes is one of the most important technological and control development, and processes, and is a shift towards smart and adaptive processes, and towards the complete use of smart systems Industry 4.0 control of adaptive systems (Qin and Badgwell 2003).
+Scope
+This project aims to develop a predictive adaptive control framework to improve the operational efficiency of a decanter centrifuge used in olive oil extraction. The study will analyse how oil recovery efficiency and energy expenditure during the centrifugation process are affected by the crucial operational parameters of bowl speed, differential speed, and feed rate and how they can be controlled. The project will also involve the development of a control strategy to automatically modify these parameters as the feed characteristics and process conditions change.
+Research questions
+How can feed variability be quantitatively modelled to predict its impact on decanter centrifuge performance indicators such as oil recovery efficiency, torque demand and energy consumption?
+How can an adaptive control system be designed to dynamically adjust bowl speed, differential speed and feed rate in response to feed variability in order to maintain oil recovery efficiency at or above 95%?
+How can a load-responsive power control strategy be integrated into a decanter centrifuge system to minimize specific energy consumption to below 3.0 kWh/t without compromising separation performance?
+Conclusion
+The enhanced design optimization proposal for the construction of the decanter centrifuge, represents the first steps towards more advanced, energy saving separation systems. By focusing on the reconfiguration of the design of centrifuges, and through the use of more adaptive and analytical design techniques, the proposal solves problems regarding process inflexibility, over demand for energy, and mechanical inefficiencies and proposes an adaptive design model for integration. With the increase in emphasis in the melting pot of modern design goals regarding automation, sustainability, and the design of resilient operational cells, this model suggests an increase in functional reliability and separation efficiency for the decanter centrifuge. More so, it sets a precedence for the next generation of process equipment that is designed to be adaptive to the surrounding operational cells. This proposal adds to the continuous positive progression of design in more programmable, energy efficient, and high performance centrifugal separation systems. More so, it shows the potentially transformative effects on integrated solid-liquid separation systems.
+CHAPTER 2: LITERATURE REVIEW
+Introduction
+Separating liquids from solids is vital in several industries, and the decanter centrifuge is an excellent choice for such an operation. As a robust machine, the decanter centrifuge has performed reliably for many years in many industries. However, an industry shift happened toward devices that work smarter, not harder. Nowadays, modern industry plants focus on devices that seamlessly incorporate operational efficiency, flexibility and a focus on the energy management/organizational aspects of a process. The decanter centrifuge is a reputable machine; however, its flexibility has not changed much. This explains its reputation of being a fixed solution for a problem with unregulated variable material streams. This paper looks at the fundamental limitations and inner machineries of decanter centrifuges, in search for more intelligent separation technologies that can be adapted.
+Types of decanter centrifuges
+Decanter centrifuges are classified based on their principle of operation and physical design, each tailored for specific industrial applications. Understanding these existing types is crucial for identifying the limitations that this project aims to overcome.
+Two phase decanter centrifuge
+Two-phase decanter centrifuges are the most widely used industrial equipment for the separation of solids and liquids, as they separate slurries of varying compositions and operate continuously and reliably with high separation efficiencies. In this design, the feed enters the rotating cylindrical-conical bowl at an inlet distribution zone where the feed is rapidly accelerated and the feed develops a stratification. The strong centrifugal acceleration (field) can be in the range of 1,000 to over 3,000 g with the rotation of the bowl, driving the solid particles to the outer wall of the bowl. This creates a sediment layer whose thickness and degree of consolidation are a function of the feed rheology, solids concentration, particle-size distribution, and the degree of polymer conditioning (Ginisty et al. 2021). The scroll, which rotates at a controlled differential speed with respect to the bowl, continuously conveys this sediment towards the beach and the solids discharge. With respect to published research, the variables of inlet geometry, exposed shear stress, feed solids percentage, viscosity of the sludge and the behaviour of polymeric flocculation are correlated to the cake dryness and capture efficiency (Li et al. 2023; Moura et al. 2024). The state of the art of CFD analysis and mathematical models that describe the secondary flow and turbulence dissipating layers capture a large number of shears and related floc breakage.
+All of these interactions have a huge influence on how and where particles settle and how stable the liquid-solid interface remains (Baust et al. 2023). Although complexity exists in these systems, two-phase decanter research chooses to maintain the same fixed mechanical design features including bowl shape and size, scroll pitch and design, flight angle, pond depth and weir placements, for both experimental and simulation studies. This means that fixed-geometry decanters result in decreased separation efficiency, unstable cake formation, increased scroll torque, and excessive energy consumption when actual feed conditions vary, for example, diurnal loading variations in wastewater treatment plants or varying in mineral tailings. (Mou et al. 2025) showed that when feed conditions varied significantly, machines still could not adequately address the geometric mismatches, even with advanced speed control. The design of two-phase decanters not allowing for operational adjustable set points to respond to process conditions is a design flaw. This lack of features steals away any potential to maintain effective separation and optimal separation control.
+Figure 2.1: Two phase decanter centrifuge(2 Phase Decanter – Centridec Separation Technologies, n.d.)
+Three-phase decanter centrifuge
+Three-phase decanter centrifuges, also known as tricanters, make it possible to separate solids from two different liquid phases, allowing three separate phases to be processed simultaneously and continuously in a single unit operation. In this type of machine, the feed to be processed by the tricanter undergoes centrifugal stratification, and the three phases are arranged in three different concentric layers according to their density. In centrifugation, the outermost layer of the stratified system consists of the solids, the layer of intermediate density (often referred to as a liquid) is in the middle, and the layer of least dense liquid, often referred to as an oil layer, is located closest to the axis of rotation. While the scroll pushes the solids to the discharge area, the three liquid phases are drawn off through precisely positioned and controlled weirs, adjustable skimming tubes, or overflow channels that are designed to stabilize (Neagle et al. 2025; Shokrian et al. 2022) the interfaces of liquid layers.
+In the edible oil and biodiesel production, petroleum refining, and oily water treatment, effective three-phase separation using tricanters is crucial as it enhances the purity of the products and minimizes the extent of downstream processing required. Nonetheless, the operation of tricanters is inherently more sensitive to feed property variations than two-phase systems, as the position and stability of the internal interfaces are influenced in a more pronounced way by viscosity, density differences, interfacial tension, emulsion criteria and phase volume ratio variances. In these types of systems, internal layer oscillations, poor definition of the phases, cross-contamination and poor separations have all been attributed to these sensitivities (Angeloni et al. 2022). Most research in the literature on optimizations has focused on operational changes, such as temperature regulation, selection of weir height, manipulation of bowl speed and feed conditioning and has neglected the rest of the rheological (spatio-mechanical) factors of the process, as the rest of the mechanisms remain stagnant (e.g., conical section and internal flow structures). For example, there may be an increase in the entrainment of oil in the aqueous phase due to an increase in the oil-water ratio, but there are no mechanisms in tricanters to shift the internal geometry to counteract this (Shokrian et al., 2022). The fact that tricanters rely on operational control which are reactive to manage process inefficiencies, similar to their two-phase counterparts, suggests a significant lack of technology.
+Figure 2.2: Three-phase decanter centrifuge (“3 Phase Decanter Centrifuge - GN Solids Control,” n.d.)
+Horizontal decanter centrifuge
+State-of-the-art construction of horizontal bowl decanters have provided them with a distinct advantage with regards to through put, efficiency and ease of maintenance. The position of the bowl provides a longer sedimentation path, which is beneficial for the settling of solids with the help of a conical beach, which acts to provide a compression zone for the dewatering of the solid cake (Kang et al. 2022). These features and characteristics make horizontal decanters ideal for applications with higher solids and higher flow rates, such as municipal wastewater sludge, mining tailings, meat processing waste, fermentation broth and slurry chemicals. Numerous almost all experimental studies and in the growing field of computer modelling studies have demonstrated how the bowl and scroll speeds, the feed solids concentration, the addition of polymer, temperature and pond depth, etc. affect the solid cake dryness, solids recovery and energy consumption (Li et al. 2023). The advanced computational fluid dynamics modelling of horizontal decanters shows that the flow field is occupied by numerous primary and secondary flowing systems, which cause the presence of vortices, as well as differences in flow velocity that have a significant impact on the movement and consolidation of solids (Baust et al. 2023). However, due to the specific mechanical limitations of decanting design, once the individual manufacturing parameters (bowl diameter, cone angle, scroll pitch, scroll-bowl clearance, inlet design, weir height, etc.) are determined, they cannot change during the entire operational life of the decanter.
+Many studies show how operational rigidity translates into poor performance as feed properties deviate from design assumptions, such as through surges in solids loading or alterations in particle-size distribution (Leone et al. 2024). Although variable-frequency drives provide some level of speed control, ‘hard’ adjustments to operational strategies are often incapable of addressing the operational imbalances that results from unmodified process geometries. This illustrates a unique engineering shortfall. Horizontal decanters are manufactured without the capability to anticipate and adjust to variable feed conditions.
+Decanter centrifuges are the most common type of centrifuges used in the industrial field, considering the mechanical arrangement provides the best trade-off for the three most important factors for the industry: throughput, efficiency and maintenance. With their horizontal placement, the length of the cylindrical section is maximized for better sedimentation efficiency. The conical beach allows for a controlled zone for the compression of the solid cake, providing effective dewatering (Kang et al. 2022). The application of horizontal decanters works best for systems dealing with high solids and high flow rates. This includes municipal wastewater sludge, mineral tailings, residuals from meat-processing, fermentation broths and chemical slurries. (Li et al., 2023). Experimental and computational studies show the effect of operation variables on the performance of centrifuges. The bowl and scroll speeds, feed concentration, additives (polymer), temperature and pond depth are a few of the variables that directly affect the performance of cake dryness, solids capture and energy consumption. High-resolution Computational Fluid Dynamics modeling is used to show that horizontal decanters are designed with complex flow structures (vorticity, secondary flows, and shear layers) that influence and control the flow of solids, their transport and their consolidation (Baust et al. 2023). The disadvantage is that the existing fixed mechanical designs are the biggest constraints. The pre-determined mechanical designs for scrolls and their pitches, bowl and cone angles, clearances between scrolls and the bowl, feed inlet configurations and weir heights cannot be modified.
+Several authors have pointed out that the inflexibility can cause an increase in the deterioration of performance when the feed characteristics deviate from the design assumptions. Examples of these deviant characteristics include surges in solid loading or variation in the particle size distribution (Leone et al. 2024). Operational adjustments within these limitations can only be done to an extent due to the presence of a permanent or fixed geometric profile in the equipment. This illustrates a notable gap in engineering design. Horizontal decanters are designed in such a way that they cannot foresee and adjust to varying feed conditions.
+Figure 2.3: Horizontal decanter centrifuge (“Horizontal Decanter Centrifuge (Flottweg, n.d.) | Download Scientific Diagram,” n.d.)
+Vertical Decanter and Vertical Centrifuge Variants
+Vertical decanter-type centrifuges and vertical tubular bowl assemblies are commonly employed in applications requiring high rotational speeds and compact equipment layouts. Their vertical orientation assists gravitational drainage of clarified liquid and minimizes lateral flow recirculation, offering advantages in food clarification, biotechnology processes, fine-particle separation and certain oil-processing operations (Angeloni et al. 2022). Vertical machines typically operate at higher g-forces than comparable horizontal units, they provide improved clarity for fine suspensions with low solids content. However, the literature reflects significantly fewer detailed engineering analyses or optimization studies on vertical decanters, largely because they are used for narrower, more specialized applications rather than high-throughput industrial dewatering. Vertical configurations introduce design constraints such as increased axial loads on bearings, higher structural stiffness requirements, more complex solids discharge systems and a reduced internal footprint that limits scroll size and pitch variation. These geometric and mechanical limitations make it far more challenging to incorporate adjustable internal geometry or advanced adaptive mechanisms. Likewise, vertical centrifuges rarely employ sophisticated control strategies due to their smaller internal volumes and specialized use cases. Vertical systems excel in certain clarification tasks, their geometry and mechanical constraints render them less suitable for the development of adaptive-scroll or adaptive-geometry systems.
+Figure 2.4: Vertical decanter centrifuge (“About Decanter Centrifuge | Machinery Equipment | TOMOE Engineering Co.,Ltd.,” n.d.)
+Decanter centrifuge in olive oil extraction
+Decanter centrifuges are still the major separation technologies used by modern industrial olive-oil extraction facilities because they are the only devices capable of high throughout, continuous separation of the three phases oil, vegetation water and solid residues. In these horizontal decanters, the olive paste undergoes centrifugation in a rapidly rotating bowl, and it is separated into different phases due to differences in density. The solids are the heaviest and go to the outer periphery of the bowl wall, while the lighter liquid phases (oil and water) are in the inner radial positions (Altieri et al. 2013). The design of the decanter includes a cylindrical-conical bowl and a helical screw conveyor that rotates with a slight differential speed with respect to the bowl. This scroll slowly moves the separated solids to the conical end for discharge, while the liquid phases, so that they are discharged into different containers, overflow through weirs or dams (Tamborrino et al. 2015).  There are different modes of operation.
+Two phase vs three phase operation in olive oil extraction
+In three-phase operation, water is added to the paste to assist in the separation of oil, water, and solids, yielding a relatively dry pomace and a separate water discharge (useful to reduce pomace moisture). In two-phase operation, little to no water is added, oil is separated, and the output is oil and a wet pomace, which decreases water usage but increases the volume of wet (A. Leone et al. 2021). Choosing to operate in two or three phases is an important trade-off depending on the priorities of water use, pomace dryness and the environmental effects of wastewater. Many parameters influence separation, among them bowl speed, the differential speed between bowl and scroll, feed rate, paste rheology (solid content, moisture, viscosity), and the geometry of the decanter. The operation of a decanter centrifuge involves a design and control space of considerable complexity across multiple dimensions (Altieri et al. 2013). Changes in oil yield, by-product moisture, oil quality (water content and risk of oxidation), energy consumption and other factors are influenced by small changes in feed or operating conditions. This complexity explains the high degree of tuning required, and the potential use of adaptive control, especially when the feed characteristics are variable (e.g., due to differences in olive cultivars, ripeness and seasonal variations). (Altieri et al. 2013) studied the variability of olive paste properties and its impact on the performance of industrial decanter centrifuges used for olive oil extraction.
+The authors explain how moisture content, viscosity and solid–liquid ratios, which vary from cultivar to cultivar and depend on the ripeness and the malaxation conditions, cause paste characteristics to exceed the design range, and in turn, cause significant fluctuations in the efficiency of oil recovery (<80% of oil recovery). They further explain that the practice of adding more dilution water to promote the three-phase operation of the centrifuge separates emulsified oil and vegetation water but in turn dilutes the oil phase and increases the quantity of wastewater that must be treated, thus creating an environmental burden in addition to the ease of separation. Water addition also aids in increasing the residual oil in the pomace (5–7% by mass instead of the ideal range of 2–3%), thus confirming the three-phase separation in variable feed conditions system aggravates by-product management. Such conditions justify the statement that, although the three-phase operation aids in obtaining drier pomace and clearer liquid phases, more water is required, and the vegetative water increases, which requires management by decanters of the three-phase that produce the water. 
+The aim of this work is to propose a relational model to explain the mass flow rate of the olive paste in relation to the extractability of the olive oil and the oil remaining in the pomace. (A. Leone et al. 2021) created an empirical model for a Megala 690 horizontal decanter that works in three different ways: two-phase and three-phase configurations. Using flow rate and operational settings as variables for their experiments, the authors calculated second-order polynomial models with RMSE values of 0.549-0.693 for extractability and 0.215-0.812 for oil losses. These levels of RMSE suggest decanter performance is reasonably predictable for the design space tested. Their findings state that two-phase operations show little to no dilution water, resulting in the reduction of wastewater and retention of phenolic compounds. The downside is that it leaves behind highly wet pommace, typically ranging between 55% and 75% moisture content. This adds complexity to downstream processes such as handling, transportation and potential recovery of energy. On the other hand, in the case of three-phase operations, the addition of dilution water means that pommace is drier and is easier to manage as well as to use for valorisation. However, this comes at the expense of increased freshwater requirements and vegetation water that needs to be treated. The authors did not carry out a simultaneous optimisation of oil yield, pomace dryness, water footprint, energy use and oil quality. Instead, their model is more suited to local adjustment within a set of process parameters.
+This reinforces the concept that in two-phase systems the positives gained in water usage and the preservation of phenolics, the downsides in the system are the increase in the moisture of the pomace, while in the three-phase systems the pomace dryness is improved, but there are further water and wastewater implications, and none of the system configurations is optimized with respect to all applicable parameters.
+(Akbarnia et al. 2019) examined the effects of some of the fundamental processing parameters, which include the malaxer temperature, % of water added, and decanter speed, on the extraction efficiency and quality parameters of virgin olive oil such as free fatty acid and peroxide value. Their findings showed that there is a direct correlation between the speed of the decanter and the decrease in free fatty acid and the peroxide value. This shows that there is an increase in the quality of the oil with an increase in the speed of the decanter, due to a decrease in the time the oil is exposed to oxidative conditions, and a decrease in the time the oil is exposed to oxidative conditions. The quality of the oil is worse, i.e. the oil is of higher free fatty acid and peroxide value, when the malaxation temperature is higher, and there is more water added to the olive paste, which are all attributes of the three-phase systems. This study demonstrates a fundamental contradiction. Conditions which are optimal for the maximum extraction of oil C.O. and those which allow for easy separation of the phases such as higher temperature and greater dilution of the water to the emulsified oil, are the conditions that can compromise the quality of the oil, while those conditions which are optimal for the minimum water content and the maximum preservation of the phenolic compounds, result in a pomace that is wetter, and more problematic.
+Along with (A. Leone et al. 2021), these findings describe two-phase systems as conserving phenolics as well as water, but generating wet pomace and complicated solid waste streams. Three-phase systems promote phase separation and dewatering, but may decrease quality and increase the amount of wastewater produced, without any integrated system to balance all goals at once. (Tamborrino et al. 2015) performed one of the most thorough studies of a horizontal decanter used to extract olive oil at the industrial scale, covering a wide range of feed mass flow (approx 4,075 - 5,820 kg•h⁻¹) and a range of differential speeds of the bowl and the screw conveyor (15.5 - 26 rpm). The machine demonstrated a solid baseline performance of 86.5 - 90.8% efficiency with respect to extraction for decanter technology across all of these operational ranges. They also described the ability of operators to alter the amount of a by-product by adjusting certain internal parameters like the water ring or speed differential to influence oil content in the husk and the moisture and consistency in the pulp without a substantial change to the extraction efficiency. However, the authors did not attempt to balance energy use, pomace dryness, amount of wastewater and quality of oils.
+The researchers detailed the practical limitations of process efficiency and the reliance on the operator's skill and manual adjustments. These findings support that modern two- and three- phase decanters can work with stable operational yields, and that the balancing of operational yields is a compromise, without built-in adaptive mechanisms for the optimal, multi-objective trade-offs between all relevant performance parameters. (Bianchi et al. 2013) studied the energy and separation efficiency of a decanter centrifuge having variable differential speed, and adjustable oil-pulp ring levels, and three and two-phase operational modes without stop of the extraction process. Their results indicated that under moderate adjustments of the feed flow rate and differential speed, total energy consumption of the decanter tends to remain constant, and energy consumption remains high. This means that a decrease in flow rate increased energy consumed per mass of olive. Simultaneously, oil flow adjustments and screw speed changes affected between the oil waste and oil phase more than the overall oil recovery rates.
+Modeling Energy Consumption, Efficiency & Structural Considerations
+Machines have some operational flexibility, but the machine described here, while showing some resilience to operational variability, does not flex its operational variability to achieve multi-criteria optimisation. The study thus reiterates the perspective that contemporary decanters, regardless of the level of sophistication of the regulation features, situate themselves within the trade-offs of energy consumption, oil yield and by-product attributes. Decanters are not systemically and adaptively flexible to optimise all of these objectives simultaneously, considering the different feed conditions. An important limitation noted in the literature is the consumption of energy, particularly under variable feed conditions and variable conditions of the process. In what is considered a breakthrough study, (Tamborrino et al. 2019) developed a model in the context of physical-fluid dynamics to estimate energy consumption in a modern decanter centrifuge with electromechanical recovery. The model was developed using fluid-dynamic and torque balance equations and supplemented with experimental data from three harvesting seasons and various operational situations, including different paste rheologies, feed flow rates, and speeds of the screw-conveyor and bowl. The model explained energy consumption and recovery with a determination coefficient of more than 0.90 and a margin of error of 5 to 10 percent. The study also noted screw-conveyor speed to be the most determinant of energy recovery. It was found that an adjustment of the screw speed had a much greater impact on energy consumption than the differential speed, which primarily governs the removal and separation of solids. Energy consumption is a critical factor in the operation of decanter centrifuges, particularly in large-scale industrial applications. Typical energy usage ranges from 2.5 to 4.5 kWh per ton of processed material (Bianchi et al. 2013). However, studies have shown that energy consumption can increase significantly under variable feed conditions, with increases of up to 35% reported due to fluctuations in torque demand (Tamborrino et al. 2019).
+The relationship between operating parameters and energy consumption is complex. While reducing feed rate may decrease total energy usage, it often increases specific energy consumption per unit mass processed. Similarly, adjustments to screw speed and differential speed can have competing effects on energy efficiency and separation performance. (Tamborrino et al. 2019) identified screw speed as the most influential parameter affecting energy consumption, highlighting its importance in system optimization. These findings indicate that energy inefficiency is not solely a mechanical issue but is closely linked to control strategy limitations. Without real-time adaptation to changing conditions, the system cannot operate at optimal efficiency, resulting in unnecessary energy losses.
+The authors of the cited source imply that the geometry and mechanics of fixed decanter centrifuges may still offer several avenues for improvement through optimal control and perhaps straightforward technological redesign, particularly when energy recuperation technologies are integrated with control strategies that are adaptive. The authors of the cited source, despite several paradigm shifts in control technologies, point out that the core design philosophies of decanters have been constant since the 1970s. The energy consumption model, in principle, supports the first steps to implement predictive control and/or real time optimization of the process, though in practice, the applicability of the model is still too narrow. It does not consider the positive impact redesigning certain elements of the process, such as the bowl or scroll, and other elements (i.e., stress and fatigue) that should be considered in geometry variations when conducting structural design analyses bounded geometry optimizations.
+Studies have also focused on the quality of olive oil produced and the characteristics of by-products. For example, (Akbarnia et al. 2019) examined how certain parameters of the decanter, such as the malaxer temperature, added water percentage, and cylinder speed, influence oil quality as measured by free fatty acid content and peroxide value. It was concluded that an increase in the speed of the decanter generally resulted in a decrease in both the free fatty acid and peroxide values, while an increase in water injection or malaxer temperature created a negative effect on both quality factors. This illustrates that operational adjustments have an influence on not only the yield, but also the chemical quality and the possible shelf-life of olive oil. However, with the two-phase decanters, there is a disadvantage in that while the decanters use less water and conserve phenolic compounds, they also produce pomace that is much wetter, with a moisture content of 55-75%, which makes downstream waste management, composting, or energy valorization more difficult (A. Leone et al. 2021). On the contrary, three-phase decanters produce drier pomace but generate large quantities of wastewater, which is a challenge in terms of environmental management.
+Some designs for decanters (such as those enabling phase transitions between two and three phases during operation) try to find a middle ground with respect to these trade-offs. Considering a study featuring a decanter with adjustable oil–pulp ring and adjustable differential speeds, the researchers noted energy consumption stabilized quickly and did not seem to depend on stepped reductions in the flow rate. Rapid and temporary changes in the flow rate and scroll speed caused oil to redistribute between the husk and pulp, but did not change the oil recovery ef
+ rate, and
+Despite these advancements, the application of such technologies to decanter centrifuges remains limited. Most existing systems focus on adjusting operational parameters without addressing underlying design constraints, such as fixed geometry. This suggests that significant potential exists for integrating advanced control strategies with improved mechanical design.
+Suppliers have started to provide “smarter” decanter operation with automatic torque-based speed adjustment, advanced sensors, and cloud-based optimization tools, proving that intelligent automation treats operator ease and improves drier results in full-scale plants (GEA Intellicant, 2024; ANDRITZ decanter D, 2023). Nonetheless, these automation techniques revolve solely around fine-tuning set points on the machines, such as the differential speed and pond depth; do not change the internal geometry; and do not offer transparent and optimized design logic that is based on systematic decision-making (GEA Intellicant, 2024). 
+Other fields of separation and process equipment have demonstrated distinctively similar patterns, illustrating the prospect of integrating data-driven surrogate models, metamodels of regression, digital twins with advanced process control, and maintaining peak performance amid changing operational environments (Regression Metamodel-Based Digital Twin for DCF, 2024; Development of Digital Twins for Water Treatment, 2023). For instance, digital twins based on regression have captured process controls in real time and adjusted set points in the filtration system based on torque and pressure, enhancing efficiency without excessive iterative testing in the plant (Regression Metamodel-Based Digital Twin for DCF, 2024).
+With regard to research on model predictive control and supervisory optimisation for olive oil mills, there has been predominately analysis on the global process, leaving apart the decanter geometry or internal mechanisms (Modelling and Predictive Control of an Olive Oil Mill, 2014). Up to now, it seems no other research has attempted to integrate a physics-informed digital twin of the decanter itself, in a way that considers multi-objective optimisation and the simultaneous control in real time of the operating parameters and the adjustable internal geometry. The lack of combined adaptive design and control solutions indicates that there is a clear gap where this project can contribute the first digital twin-enabled optimisation and control framework for decanter centrifuges in olive oil extraction.
+Key Design Parameters and Their Influence on Performance
+The performance of decanter centrifuges is governed by a complex interaction of operating feed composition. These parameters influence both the separation efficiency and the energy consumption of the system. Bowl speed determines the magnitude of the centrifugal force acting on the particles and is therefore directly related to separation efficiency. Higher speeds generally improve particle settling and increase recovery efficiency; however, they also lead to higher energy consumption and increased mechanical stress. Differential speed controls the rate at which solids are conveyed along the bowl and plays a key role in balancing separation efficiency and torque demand. (Tamborrino et al. 2015) reported that optimal differential speeds typically range between 15 and 26 rpm, depending on the specific application.
+Feed characteristics, including moisture content, viscosity, and solids concentration, have a profound impact on system performance. (Altieri et al. 2013) showed that variations in these properties can reduce oil recovery efficiency to below 80% if they fall outside the design range. Additionally, the addition of water to facilitate separation in three-phase systems has been shown to improve phase separation but at the cost of reduced oil quality and increased wastewater generation (Altieri 2010). The key insight from the literature is that there is no single optimal operating condition for all scenarios. Instead, performance depends on continuously adjusting parameters to match changing feed conditions. This highlights the need for adaptive control systems capable of dynamically optimizing performance in real time.
+Research gap analysis
+Studies have consistently highlighted limitations regarding the operational efficacy of decanter centrifuges in the extraction of olive oil. These limitations stem from four interlinked constraints: variable feed attributes, rigid internal geometry, high energy consumption, and limited adaptive control. Feed heterogeneity as a result of cultivar, maturity, malaxation conditions, and moisture distribution causes significant variances in solids rheology and loading. Decanters’ ability to address these variances is limited to the modification of bowl speed, which in turn causes detrimental operational conditions, including diminished oil extraction, unstable formation of a filtration cake, and excessive torque. Additionally, the energy consumption of a decanter’s screw is dependent on its design, specifically the bowl and scroll geometries, as well as their locked residence time distribution as it relates to the operational conditions. Neglecting to stay within the design parameters will create a situation where the energy consumption, screw torque, and mechanical wear will accelerate to the detriment of the system. Decanter olive oil applications have yet to develop a comprehensive model to address the operational geometry and control systems in an adaptive manner to achieve the optimal balance of yield, energy consumption, and by-product value, despite the advances made in empirical models and automation systems.
+The simultaneous progress of indust ficiency (Bianchi et al. 2013). This means that although some current decanters are able to handle operational changes, they do not fully maximize oil recovery, energy consumption or the quality and quantity of by-products. All studies reviewed demonstrated operational flexibility and effectiveness, but also highlighted the limitations of current decanter centrifuges, most of which reflect the same goals with respect to optimization and control improvements.
+Intelligent control, adaptive operation and digital twins
+Traditional control systems for decanter centrifuges are primarily based on feedback mechanisms, where adjustments are made in response to changes in system performance. While such systems are relatively simple and robust, they are inherently reactive and often fail to respond quickly enough to rapid changes in feed conditions. This results in temporary losses in efficiency and increased energy consumption. Recent developments in control engineering have introduced more advanced approaches, such as Model Predictive Control (MPC), which uses mathematical models to predict future system behaviour and optimize control actions accordingly (Qin and Badgwell 2003). Additionally, the concept of digital twins has emerged as a powerful tool for real-time monitoring and optimization. Digital twins integrate physical models, sensor data, and machine learning algorithms to create a virtual representation of the system, enabling continuous performance optimization.
+parameters, many of which are interdependent. Among the most critical parameters are bowl rotational speed, differential speed between the bowl and scroll, feed rial automation and metamodel-based digital twins within similar separation processes demonstrates the advantages of sophisticated sensors, surrogate models, and predictive control. Currently, no decanter-specific digital twin exists that integrates real-time adaptive control of operational variables and internal geometry for olive oil extraction. This synthesis reveals numerous opportunities prompting the current research. In most of the available studies, the focus of feed variability is somewhat limited because most of the studies focus on a narrow, control paste operational window and do not quantify performance across seasons and batch heterogeneities, whereas operational variabilities are instead the norm for industrial decanters processing olive lots. Currently, most studies predict a static and unchanging geometry and provide little structural insight, such that the bowl and scroll dimensions are assumed to remain constant, and few studies have attempted to perform coupled CFD-FEA studies to examine the stresses, deformations, or fatigue failures in different configurations, which limits the ability to explore internally adaptive designs safely (Baust et al 2023). Furthermore, most optimization studies remain single-objective, single-physics, and focus on yield, energy, or quality (often in isolation) ignoring structural and operational integrity and reliability. There is no multi-objective, Pareto-optimization frameworks for the olives’ decanter design parameters. Furthermore, there has been little effort for the integration of smart control and digital twins on the decanter level, even though advanced control, predictive control, and digital-twin based models have been used at the operational level in the plants. There is a gap in the published literature regarding the application of real-time adaptive control of the operating and internal geometry parameters on the olive oil decanters combined with decanter-specific, physics-informed digital twins.
+The limitations highlight the necessity for the development of an adaptive decanter design that incorporates the ability to dynamically modify operating parameters, based on a digital-twin-driven, multi-objective and multi-physics optimisation and control framework that directly responds to variabilities in the feed and the associated energy and structural reliability.
+Conclusion
+The literature shows that despite some incremental improvements in the last three decades, the basic internal geometry of decanter centrifuges used in olive oil extraction, Empirical control strategies, in particular, cannot address the highly variable industrial olive paste. Each of empirical modelling, CFD analysis, and studies in energy consumption address important elements of decanter behaviour, but remain fragmented, and fail to integrate into a singular multi-physics design and operation framework, particularly pertaining to the structural integrity and fatigue of alternative geometries. At the same time, the expanding interest in digital twins and intelligent control in separation technologies opens the path for moving beyond static and manually controlled operation to more adaptive and optimally data-driven control for flexible adjustment of operating parameters. Collectively, these findings underpin the justification of the project centred on the multi-physics, multi-objective design optimization of an adaptive decanter centrifuge, coupled with a digital twin control approach to keep oil recovery high and specific energy consumption low for realistic variability of feed.
+CHAPTER 3: RESEARCH METHODOLOGY
+Introduction
+This chapter presents the research methodology adopted to design, develop and validate a predictive adaptive control system for a decanter centrifuge used in olive oil extraction. It is structured to mirror the exact sequence in which the research was carried out. This provides a step by step account of how each phase of the project was executed and how the phases connect to one another. 
+System boundary, assumptions and constraints
+The research is bounded to the horizontal decanter centrifuge subsystem as used in three-phase olive oil extraction. The upstream malaxation unit and the downstream oil polishing and storage stages are out of the project scope. The control system is limited to four manipulated variables that is bowl speed, screw speed, differential speed and feed flowrate. These variables were selected because the literature consistently identifies them as the dominant parameters governing both oil recovery efficiency and specific energy consumption in horizontal decanters. The following assumptions apply across all phases of the research: 
+Feed properties vary continuously within the ranges documented in Section 3.4, and the control system is required to respond to these variations in real-time but in batch mode.
+The physical prototype operates at a reduced geometric scale relative to industrial decanters but preserves the critical dimensionless geometric ratios, specifically the bowl length to diameter ratio of 3.8 and the cone half angle of 8°.
+Olive paste rheology follows a Herschel-Bulkley non-Newtonian model, consistent with the characterisation reported by (Tamborrino et al. 2019). A viscous aqueous mixture with solid filler material is used as a substitute test fluid in prototype experiments, selected to replicate the relevant rheological and loading characteristics within laboratory constraints.
+Sensor readings are accurate within the stated instrument specifications. All sensors are calibrated prior to testing using traceable reference standards.
+Motor energy consumption is calculated from measured current and voltage assuming a constant power factor of 0.85 for the variable frequency drive motor configuration.
+The MPC prediction horizon of ten steps (50 seconds) and control horizon of three steps adequately capture the dominant dynamic time constraints of the decanter centrifuge system.
+Engineering tools and software
+Tool
+Category 
+How it was use in this project
+SolidWorks 2024
+CAD Modelling
+Used to create 3D models for the decanter centrifuge
+MATLAB R2013a
+Mathematical modelling
+Used to develop and fit regression models that predict oil recovery efficiency, specific energy consumption and screw torque as functions of feed properties and operating parameters. Goodness of fit statistics (R2, RMSE) and residual diagnostics were computed
+Simullink (MATLAB toolbox)
+Control system simulation
+Used to design, tune and test the MPC controller in a closed loop virtual environment. The digital twin process emulator was built as a Simulink subsystem. Step change disturbances in feed moisture and solids concentration were simulated to verify setpoint response and constraint enforcement before hardware deployment. 
+Python 3.11
+Data analysis
+Use for supplementary sensitivity analysis to identify which feed input variables most strongly influence model outputs
+Arduino IDE
+Embedded control
+Used to program the microcontroller that interfaces with all sensors and transmits computed setpoint commands to the VFDs. The embedded code handles real time sensor polling at 2 second intervals, state estimation and serial communication to the MATLAB MPC host 
+Wondershare EdrawMax
+Concept development
+Constructing flowcharts
+Zotero 
+Reference management
+Used to organise, store and cite peer-reviewed literature sources.
+Microsoft excel  
+dataset generation 
+Substituting numbers into equations to come up with the 243-point dataset.
+Literature derived datasets
+Primary industrial scale separation experiments were not conducted as part of this study. All quantitative data used to construct and train the predictive model were obtained from published peer reviewed literature. All datasets were selected on the basis that they are published in peer-reviewed journals and obtained from horizontal decanter centrifuges in olive oil extraction or closely analogous applications. The datasets were quantitative and reported with sufficient precision to allow direct incorporation into a predictive model and they are internally consistent with other cited sources.
+Author(s) & year
+Parameter and relationship reported
+Range of values
+(Tamborrino et al. 2015)
+Oil recovery efficiency for stable feed
+86.5-90.8%
+(Altieri et al. 2013)
+Oil recovery efficiency under variable feed
+<80%
+(Tamborrino et al. 2019)
+Energy increase under feed variability
+25-35%
+(Tamborrino et al. 2019)
+Screw conveyor speed, dominant energy variable
+Qualitative dominance confirmed
+(Tamborrino et al. 2015)
+Differential speed operating range
+15.5-26
+(Tamborrino et al. 2015)
+Feed mass flow rate
+4 075-5820kg/h
+(Guerrini et al. 2017)
+Solid-liquid variation during batch
+20-25%
+(Guerrini et al. 2017)
+Pomace oil content: actual vs optimal during feed variations
+5-7% vs 2-3%
+(Altieri 2010)
+Dilution coefficient threshold for efficiency loss
+>0.3 (water or paste)
+(A. Leone et al. 2021)
+Paste moisture content for the different types of olives
+55-75%
+(Akbarnia et al. 2019)
+Decanter speed vs oil quality
+Inverse relationship confirmed
+Feed/ process parameter
+Minimum 
+Maximum 
+Units 
+Paste moisture content
+0.40
+0.65
+Mass fraction
+Paste solid concentration
+0.15
+0.35
+Mass fraction
+Apparent viscosity (Herschel Bulkley)
+500
+2500
+mPa⸱s
+Feed mass flowrate
+3000
+6000
+Kg/h
+Bowl rotational speed
+2500
+4000
+Rpm
+Differential speed
+10
+30
+Rpm
+Dilution water ratio (water/paste)
+0.00
+0.40
+Specific energy consumption baseline
+2.5
+4.5
+kWh/t
+Requirements definition
+The problem statement and the findings of the literature review were translated into a set of measurable design specifications and constraints. This step established the reference standard against which all subsequent design decisions and experimental designs are evaluated. The requirements derivation process involved a systematic review of the quantitative data compiled in chapter 2. The worst case and nominal case scenarios for feed variability were identified from the literature. Performance targets were set to represent a credible and technically justified improvement over the current state of industrial practice. 
+Performance metric
+Literature baseline
+Project target
+Oil recovery efficiency under feed variations
+<80%
+≥ 95%
+Specific energy consumption during feed variations
+>4.5kWh/t
+≤ 3.0kWh/t
+Screw conveyor torque
+Variable load dependent
+< 90%
+Pomace residual oil content
+5-7% mass
+≤ 3%
+MPC setpoint response time
+Reactive systems only
+< 30 seconds
+Control system stability
+-
+No sustained oscillation
+Repeatability (test standard deviation) 
+-
+SD < 2% for oil recovery efficiency, SD < 0.2 kWh/t for energy 
+Concept development
+Four alternative control system architectures were developed to address the problem of feed variability in the decanter centrifuge. Concepts were developed through an integrated approach that combined functional decomposition, literature driven design and structured brainstorming. Functional decomposition was first used to break the decanter system into its key operational subsystems that is separation, sensing, control and energy management, so that design alternatives could be targeted at each domain. These concepts include: 
+Concept 1: Model Predictive Control with digital twin
+This concept is a batch-mode, event triggered MPC framework enhanced with a real-time digital twin and an energy optimization layer. At each batch initiation, the digital twin uses sensor derived state estimates from a Kalman filter to simulate system behaviour across a prediction horizon. The Mpc solves a constrained quadratic programming problem. This then computes optimal setpoints for bowl speed, screw speed, differential speed and feed flowrate. A supervisory safety layer enforces torque and separation efficiency thresholds throughout operation.
+Concept 2: Fuzzy logic adaptive controller
+The concept uses a fuzzy logic controller that converts real-time sensor measurements into fuzzy membership degrees. A pre-designed rule base using max-min composition and Mandani aggregation generates control outputs. These are then defuzzified through the centroid method to produce crisp setpoints. A supervisory layer monitors intra-batch conditions. The rule base is refined after each batch using logged data.
+Concept 3: Artificial Neural Networks Predictive controller
+This concept uses a trained multi-layer ANN that evaluates multiple candidate operating configurations at each batch’s initiation. It predicts oil recovery efficiency and specific energy consumption for each. A supervisory optimization layer selects the configuration that best satisfies the performance constraints. The ANN is periodically retrained using accumulated operational data to maintain prediction accuracy over time.
+Concept 4: Random Forest Predictive controller
+The concept uses an ensemble of decision trees to predict process performance outcomes for multiple candidate operating configurations at batch initiation. A selection module identifies the configuration that achieves the required oil recovery target while minimizing specific energy consumption, subject to defined constraints. The model is retrained periodically using logged operational data.
+Concept selection
+The concept selection followed a two-stage method. Stage 1 applied the Pugh Screening Matrix, in which each concept was rated as high satisfaction (+), medium satisfaction (0) or low satisfaction (−) against the design requirements. This eliminated one concept from further evaluation. Stage 2 applied a Weighted Decision Matrix to the remaining three concepts, assigning numerical scores (1 = low, 2 = medium, 3 = high satisfaction) against weighted criteria. The weights were assigned based on the relative importance of each requirement to the project objectives. Concept 1 was selected as the best concept since it had the highest weighted total score. The selected concept is identified by the highest weighted total score.
+Selection Stage
+Method
+Criteria Basis
+Output
+Stage 1 - Screening
+Pugh Screening Matrix (+/0/−)
+10 design requirements 
+Elimination of concepts with net score ≤ 2
+Stage 2 - Scoring
+Weighted Decision Matrix (1–3 scale)
+8 weighted criteria (total weight = 1.00)
+Selected concept with highest weighted total
+System Modelling
+System modelling established the quantitative relationships between the key feed input variables moisture content, solid concentration, apparent viscosity and feed flow rate with the three primary performance outputs of the decanter centrifuge. These include oil recovery efficiency (ηₒ), specific energy consumption and scroll conveyor torque demand. These relationships were developed using multiple linear regression and second-order polynomial regression, implemented in MATLAB R2013a. The regression approach was selected over physics-based first-principles modelling for three reasons. First, it is directly informed by the validated experimental datasets documented in Tables 3.2 and 3.3, ensuring that the model reflects real operating conditions reported in the literature. Second, it produces prediction functions that can be called in real time by the Simulink MPC block at each sampling interval. 
+Dataset generation
+The five input variables were each presented in three levels that is low, medium and high. They were taken directly from the parameter ranges documented in Table 3.3. The low level corresponds to the lower bound of the published range, the high level to the upper bound and the medium level to the midpoint. By using three levels per variable rather than two, the dataset captures non-linear effects. 
+Input variable
+symbol
+Level 1 (low)
+Level 2 (medium)
+Level 3 (high)
+Paste moisture content
+M
+0.40
+0.52
+0.65
+Paste solid concentration
+S
+0.15
+0.25
+0.35
+Apparent viscosity
+ v(mPa⸱s)
+500
+1500
+2500
+Feed flow rate 
+Q(kg/h)
+3000
+4500
+6000
+Differential speed
+Δω (rpm)
+10
+20
+30
+Regression equations were used to generate the dataset. Three separate second-order polynomial regression equations were constructed, one for each output variable. This was based on the quantitative relationships reported in the literature. Thess equations define the mathematical structure of the model and were used to compute the output values for every combination of input variables in the dataset. The equations were expressed in centred form, where each input variable is expressed as a deviation from its lower bound, which reduces multicollinearity in the regression.
+Oil recovery efficiency ɳo(%)
+ɳo=88.65-30.0(m-0.40)-10.0(m-0.40)2-15.0(s-0.15)-8.0(s-0.25)2-0.003(v-500)-0.0015(Q-3000) +0.25(Δω-10)
+ The intercept of 88.65% represents the midpoint of the 86.5–90.8% baseline efficiency range reported by Tamborrino et al. (2015) under stable feed conditions. The linear moisture coefficient of −30.0 is derived from the documented drop in efficiency to below 80% when moisture reaches 0.65 (Altieri et al. 2013), which requires a reduction of approximately 9–10% across the 0.25 moisture-fraction range, amplified by the second-order term to reflect the accelerating decline at high moisture reported by A. Leone et al. (2021). The solid concentration coefficient of −15.0 reflects the further reduction from increasing solids loading, with the quadratic term capturing the diminishing marginal impact at mid-range solids. The viscosity coefficient of −0.003 per mPa·s and the flow rate coefficient of −0.0015 per kg/h reflect the smaller but consistent negative effects of these variables on phase separation quality. The differential speed coefficient of +0.25 rpm⁻¹ is consistent with the beneficial effect of higher scroll speed on solids conveying and phase clarity reported by Tamborrino et al. (2015).
+Specific Energy Consumption E (kWh/t)
+E = 3.50 + 1.5(m − 0.40) + 4.0(s − 0.15) + 1.8(s − 0.15)(m − 0.40) + 0.0004(v − 500) − 0.00008(Q − 3000) + 0.05(Δω − 10)
+The intercept of 3.50 kWh/t represents the midpoint of the 2.5–4.5 kWh/t baseline range reported by Bianchi et al. (2013). The solid concentration coefficient of +4.0 is the dominant linear term, reflecting the up-to-35% energy increase under variable feed conditions reported by Tamborrino et al. (2019). The interaction term +1.8(s)(m) captures the combined energy penalty when both solid concentration and moisture are simultaneously high, consistent with Tamborrino et al.'s (2019) finding that paste rheology heterogeneity is the primary driver of energy variability. The differential speed coefficient of +0.05 reflects the finding by Tamborrino et al. (2019) that screw conveyor speed is the most determinant variable for energy consumption. The negative flow rate coefficient of −0.00008 captures the finding by Bianchi et al. (2013) that reducing feed rate increases specific energy per unit mass processed.
+Scroll Conveyor Torque T (Nm)
+T = 250.0 + 350.0(s − 0.15) + 0.04(v − 500) + 0.02(Q − 3000) + 2.0(Δω − 10)
+The intercept of 250 Nm corresponds to 50% of the rated torque of 500 Nm, representing the nominal low-load condition at minimum solid concentration. The solid concentration coefficient of +350 is the dominant term, consistent with the literature that solid loading is the primary driver of scroll drag force and torque demand. The viscosity and flow rate terms reflect the secondary hydraulic resistance contributions. The torque model is linear (no quadratic terms were retained) because no non-linear torque-composition relationships were reported in the reviewed literature.
+A synthetic dataset was generated by evaluating the three regression equations at every possible combination to the five input variable levels defined. The three levels for each of the five variables, this yields a full factorial design of 35 = 243 data points. This full factorial structure ensures that the dataset covers the complete documented operating space without leaving any region of the input domain unsampled. This is essential for a regression model that will be used to predict performance across all possible feed conditions. The dataset was split into a training set and a test set before any model fitting was performed. Every fifth row was assigned to the test set, yielding 48 test points (approximately 20%) and 195 training points (approximately 80%). The split ratio is consistent with standard practice in supervised regression modelling. It is sufficient to provide an unbiased estimate of out of sample prediction accuracy. The full 243-point dataset is available in appendix. It was used in MATLAB for all modelling work. It was created in Microsoft excel. 
+Variable
+Total points
+Training (80%)
+Test (20%)
+Minimum
+Maximum 
+Oil recovery efficiency ɳo (%)
+243
+195
+48
+72.0
+93.6
+Specific energy consumption E (kWh/t) 
+243
+195
+48
+3.26
+5.80
+Scroll torque T (Nm)
+243
+195
+48
+250
+490
+Model construction
+MATLAB operation
+What was done
+Output
+Data import and organization
+Dataset was imported as a 243×8 matrix. Input variables [m, s, v, Q, Δω] stored in column 1-5, output variables [ɳo, E, T] in column 6-8
+Clean structured array ready for regression
+Train/ test split
+Every 5th row (20% = 48points) reserved as test set, remaining 195 rows used for model fitting. Split was performed before any model fitting to prevent data leakage
+ Train X, train Y, test X, test Y arrays 
+Feature matrix construction
+Polynomial feature matrix constructed including, linear terms (m, s, v, Q, Δω), quadratic terms (m2, s2), and interaction term (s×m). Centred on variable means to reduce multicollinearity)
+Feature matrix of size 195×10
+Regression model fitting
+Three separate regression equations fitted using MATLAB’s fitlm() function (one for ɳo, one for E, one for T). Ordinary least squares were used to estimate coefficients. Non-significant terms (p>0.05) removed iteratively.
+Three fitted model objects with coefficient estimates an standard errors
+Training set diagnostics
+Residual plots (residual vs fitted, normal Q-Q) generated for each model. Cook’s distance computed to identify high-influence points. R2, RMSE computed on training data
+Residual plots, R2 train, RMSE train for each model
+Test set prediction and validation
+Each fitted model used to predict outputs for the 48 point withheld test set. Predicted vs actual parity plots generated. R2 test and RMSE test computed. Models accepted only if R2 test≥ 0.90 and prediction error ≤ 10%
+Parity plots, R2 test, RMSE test, pass/fail
+Export as prediction functions
+Each validated model exported as a MATLAB function file (predict_eta.m, predict_energy.m, predict_torque.m). These functions accept a 5-element state vector [m, s, v, Q, Δω] as input and return the predicted output. Functions are callable by the Simulink MPC block at every sampling interval.
+Three .m function files integrated into the Simulink model
+Control design
+The control system was designed as a discrete-time Model Predictive Controller implemented in Simulink. The controller operates with a sampling period (Ts) of 5 seconds, a prediction horizon (Hp) of 10 steps (50 seconds) and a control horizon (Hc) of 3 steps. At each sampling instant, the current measured state is obtained from the sensor suite through the Kalman filter. This suppresses measurement noise and produces a smoothed state estimate. The regression model is then queried to predict system performance over the prediction horizon for a range of candidate control actions. A constrained quadratic programming (QP) solver identifies the control input sequence that maximises oil recovery efficiency while minimising energy consumption. This is subject to hard constraints on scroll torque, speed limits and the dilution water ratio. The MPC objective function is formulated as a weighted sum of the tracking error on oil recovery efficiency and a penalty on energy consumption. The torque overload constraint embedded as a hard constraint in the QP solver. Weighting factors were tuned iteratively in Simulink by simulating the closed-loop system response to step changes in feed moisture and solid concentration across the full documented variability range before hardware deployment.
+A digital twin of the decanter centrifuge was constructed as a Simulink subsystem. The digital twin uses the validated regression model as its process emulator, receiving the same sensor inputs as the physical system and running forward simulations at each batch initiation to generate predicted performance trajectories. These trajectories are passed to the MPC to inform setpoint computation.  The manipulated variable bounds within the MPC are set directly from the literature-derived operating ranges in Table 3.2. Bowl speed is constrained between 2 500 and 4 000 rpm, differential speed between 10 and 30 rpm and feed flow rate between 3 000 and 6 000 kg/h. The MPC is not permitted to command values outside these bounds, ensuring that the system operates within the validated performance space reported in the literature and within the mechanical limits of the prototype. The sensor suite was integrated into the decanter centrifuge to enable real-time monitoring of all key process variables. All sensors interface with a central Arduino-based microcontroller, which polls sensor outputs at defined sampling intervals. It then transmits computed setpoint commands to the variable-frequency drives controlling the bowl and screw motors. 
+Conclusion
+This chapter provided a roadmap for planning how research questions and objectives will be fulfilled.  The methods were carefully chosen to ensure technical feasibility, accuracy and reproducibility of results while aligning with the overall research goals. This chapter paves way for the next chapter which deals with concept development.
+CHAPTER 4: CONCEPTUAL DESIGN AND CONCEPT SELECTION
+Introduction
+Building on the limitations of conventional centrifuge systems identified in the literature and the modelling framework established in the methodology, this chapter focuses on developing, evaluating and refining design concepts capable of addressing variability in olive paste feed conditions. Multiple conceptual solutions are generated to explore alternative approaches for improving separation efficiency, reducing energy consumption and mitigating mechanical wear under fluctuating operating loads. These concepts are systematically assessed against functional requirements, design constraints and performance objectives. This leads to the selection of a preferred solution. The selected concept is then developed into a detailed mechanical and control design, incorporating geometric definition, material selection, operating principles and integration considerations. Through this structured concept development and detailed design process, the chapter establishes a technically justified and manufacturable foundation for the adaptive decanter centrifuge that will be analysed and validated.
+Design requirements and constraints
+The design requirements were derived from the problem statement, objectives and literature review. These requirements define the expected performance, operational limits and feasibility constraints of the proposed system.
+Category
+Requirement
+Description
+Performance 
+Oil recovery efficiency ≥95%
+Maintain high separation efficiency under variable feed conditions
+Performance
+Energy consumption   ≤ 3kWh/t
+Reduce specific energy usage compared to conventional systems
+Control
+Adaptive operation
+System must respond dynamically to feed variability
+Control
+Real-time capability
+System must operate with minimal delay
+Operating conditions
+Variable viscosity & solids content
+Must handle 20-25% variation in feed properties
+Safety
+Torque and overload protection
+Prevent mechanical failure and excessive wear
+Cost 
+Moderate implementation cost
+Must be feasible for industrial adoption
+Manufacturability
+Use of available components
+Sensors, VFDs, PLCs must be accessible
+Maintenance 
+Low complexity maintenance
+Avoid overly complex mechanical modifications
+Integration 
+Compatibility with existing system
+Retrofit capability preferred
+Table 41: Design requirements and constraints
+Concept generation approach
+The concepts were developed through an integrated design approach that combined several structured and exploratory methodologies. Initially, functional decomposition of the decanter centrifuge system was carried out to break down the process into key subsystems, including separation, sensing, control, and energy management, thereby enabling targeted innovation within each domain. This was complemented by literature-driven insights, particularly drawing on advancements in Model Predictive Control (MPC), fuzzy logic control, Artificial Neural Networks and Random-forest and adaptive control systems, which informed the incorporation of intelligent and predictive capabilities into the design. Finally, a structured brainstorming and synthesis process was employed to integrate these elements, resulting in cohesive concepts that effectively combine advanced control strategies with energy optimisation techniques.
+Concept 1: Model Predictive Control (MPC) 
+Concept Description
+This system is a batch-mode, event triggered Model Predictive Control framework enhanced with a real-time digital twin and an energy optimization layer. At the beginning of each batch, the digital which represents a virtual replica of the decanter centrifuge uses synchronised process data to simulate system behaviour under operating conditions. The MPC then computes optimal setpoints based on these predictions. An energy optimization layer aligns motor power and speed with predicted load demand. Then the supervisory safety layer ensures protection against torque overload and separation inefficiencies during operation. 
+Working principle
+At batch initiation, sensors measure feed properties such as moisture, viscosity and flow rate and a Kalman filter produces an accurate state estimate. This state is fed into the digital twin, which synchronises with real-time data and runs scenarios simulations to predict outcomes such as torque, oil recovery efficiency, energy consumption and residence time. These predictions are used by the MPC to solve a constrained optimization problem that maximizes oil recovery efficiency and minimises energy use. This then produces optimal setpoints for bowl speed, screw speed, differential speed and flow rate. The energy optimization layer then uses predicted torque and power demand to configure motor speeds and power input for load-responsive operation before actuation. During the batch processing torque and oil recovery are monitored. If thresholds are exceeded, bounded corrective actions are applied. When the thresholds are not exceeded then the system reverts to original MPC setpoints since it is within limits.
+Key components
+NIR sensor, inline viscometer, flowmeter, current sensor, torque sensor, Arduino microcontroller, VFDs, feed pump controller
+Advantages
+This system combines the predictive strength of MPC with the adaptability of a digital twin. This enables more accurate pre-batch optimization through virtual scenario testing. It provides strong multivariable control with constraint handling, improved energy efficiency through load-responsive power alignment and enhanced robustness through the supervisory protection. The continuous data feedback loop allows ongoing model refinement, improving performance over time. 
+Disadvantages
+The system is complex to design and implement. It requires an accurate process model, reliable sensor data and significant computational resources. Its performance relies heavily on the fidelity of the digital twin and the quality of the input data. Errors in the modelling can lead to suboptimal decisions. 
+Concept 2: Fuzzy Logic Adaptive Controller
+Concept Description
+This system is a fuzzy logic-based control for a decanter centrifuge. It aims to optimize energy consumption and maintain stable operation by converting real-time sensor measurements (viscosity, flow, torque) into fuzzy rules. It then generates crisp setpoints for bowl speed, screw speed, differential speed and feed flowrate. A supervisory layer monitors intra-batch conditions and intervenes when torque or moisture limits are approached. A post-batch logging and maintenance loop refines the rule base over time.
+Working principle
+Crisp input values from the measurement layer are fuzzified into membership degrees. The inference engine applies a pre-batch rule base using max-min composition and Mandani aggregation, then defuzzifies through the centroid method to produce initial setpoints. An energy optimization module estimates load and torque from these setpoints and feed conditions then adjusts motor power and speeds accordingly. During operation, the supervisory layer checks torque and moisture thresholds. If thresholds are breached, it reduces feed flowrate and increases differential speed within safe bounds. After each batch, logged data is used to refine membership functions and rules.
+Key components
+Inline viscometer, flowmeter, NIR sensor, moisture sensor, torque sensor, PIC microcontroller, VFDs
+Advantages
+Handles non-linear and complex centrifuge dynamics effectively, adapts to varying feed conditions without a precise mathematical model, reduces energy waste by estimating load and adjusting motor power. It prevents overloads and excessive moisture through real-threat supervision and improves over time through rule-base maintenance.    
+Disadvantages
+It requires expert knowledge to design and tune membership functions and rules, initial implementation can be time consuming, computational overhead may be significant for very high speed processes and if post-batch maintenance is neglected performance can degrade with changing material properties.
+Concept 3: Artificial Neural Network Predictive Controller
+Concept Description
+This system is a batch-mode, event triggered Artificial Neural Network (ANN) based predictive control framework with integrated energy optimization and supervisory safety layers. At the beginning of each batch, a trained ANN evaluates multiple candidate operating conditions using measured feed properties and predicts process performance. This enables selection of optimal setpoints that maximises oil recovery efficiency while minimising energy consumption. An energy optimization layer then aligns motor power and speeds with predicted load demand. The supervisory safety layer ensures stable and safe operation during batch.
+Working principle
+At batch initiation, sensors measure feed properties such as moisture, viscosity and flow rate. These inputs are normalised and combined into a feature vector. The trained ANN evaluates numerous candidate parameter combination and predicts oil recovery efficiency and energy consumption for each. After this a supervisory optimization layer selects the configuration that satisfies the constraints while achieving the best performance. The selected setpoints are passed to the energy optimization layer, which uses predicted torque and energy demand to adjust motor power and speeds for a load responsive operation before actuation. During operation, torque outlet recovered oil level are monitored. If thresholds are exceeded, bounded corrective actions are applied. Once normal conditions are restored, the system reverts to the original setpoints and all operational data is logged and used for periodic retraining to improve model accuracy. 
+Key components
+NIR sensor, inline viscometer, flowmeter, torque sensor, ultrasonic sensor, ESP32 microcontroller, VFDs, feed pump controller
+Advantages
+The system effectively captures complex non-linear relationships between feed characteristics and process performance. This enables accurate prediction and improved decision-making without requiring explicit physical models. The energy optimization layer enhances efficiency by aligning power usage with predicted load, while the ability to retrain the ANN allows performance to improve overtime. The supervisory layer further increases robustness by preventing unsafe or inefficient operating conditions.
+Disadvantages
+The approach requires a large, high quality dataset for training and remains a black box model with limited interpretability, this can reduce transparency and operator trust. Prediction errors can persist throughout the batch unless safety thresholds are triggered. There is need for continuous data management and retraining which adds complexity.
+ 
+Concept 4: Random forest predictive controller
+Concept Description
+This system is a batch-mode, event triggered Random Forest based predictive control framework with an integrated energy optimization and supervisory safety layer. At the start of every batch, a trained ensemble model predicts process outcomes for different operating configurations using measured feed properties. The optimal configuration is selected to maximise oil recovery efficiency while minimising energy consumption. An energy optimization layer then aligns motor power and speed settings with the predicted torque demand. The supervisory layer ensures safe operation during the batch.
+Working principle
+When a new batch is being initiated sensors measure feed characteristics such as moisture, viscosity and flow rate. These are input into a trained Random Forest model that predicts oil recovery efficiency, specific energy consumption and torque demand for multiple candidate operating configurations. A selection module evaluates these candidates and chooses the configuration that achieves the desired oil recovery target while minimising energy. It also has to satisfy constraints thereby generating initial setpoints for bowl speed, screw speed, differential speed, feed rate and residence time. These setpoints are passed to the energy optimization layer, which uses the predicted torque demand to pre-configure motor power and speeds for load responsive operation before actuation. During operation, torque and oil level are monitored. If thresholds are exceeded the bounded corrective actions are applied. As the system stabilises it reverts to the original setpoints. All operational data is logged for periodic retraining of the model.
+Key Components
+NIR sensor, viscometer, flow meters, torque sensor, ultrasonic sensor, ARM Cortex-M microcontroller, VFDs, feed pump controller
+Advantages
+The system effectively captures non-linear relationships between feed conditions and process performance using ensemble learning. This provides robust and relatively accurate predictions under variable conditions. The explicit energy optimization layer ensures strong alignment between predicted load and power consumption. This improves efficiency while the supervisory layer enhances operational safety. The model also offers partial interpretability through feature importance which aids in engineering insight and decision making.
+Disadvantages
+Performance depends heavily on the quality and representativeness of the training dataset. Underrepresented conditions can lead to poor predictions. The model lacks explicit physical transparency and computational complexity which can increase model size.  
+Concept evaluation and selection
+The two-stage phase concept selection criteria are used. The concepts were compared
+and analysed and a quantitative evaluation was done through screening and scoring.
+Concept screening
+The screening matrix provides a qualitative first-pass evaluation of each concept against the defined design requirements in Table 4.1.
+Screening Basis
++ (Positive): high satisfaction of the design requirement
+0 (Neutral): medium satisfaction of the design requirement
+– (Negative): low satisfaction of the design requirement
+Requirement
+Concept 1
+Concept 2
+Concept 3
+Concept 4
+Oil recovery ≥95%
++
+0
++
++
+Energy ≤3kWh/t
++
+0
++
++
+Adaptive operation
++
+0
++
++
+Real-time capability
++
++
++
++
+Handles feed variability
++
+-
++
++
+Torque and overload protection
++
+-
++
+0
+Moderate cost
++
++
+-
+-
+Manufacturability 
+0
++
+0
+-
+Low maintenance complexity
+-
++
+-
+-
+Sum (+)
+7
+5
+6
+5
+Sum (0)
+1
+3
+1
+1
+Sum (-)
+1
+2
+2
+3
+Net score
+6
+3
+4
+2
+Decision 
+Continues 
+Continues
+Continues
+Decline 
+Table 42: Concept screening table
+Based on the above screening matrix, concept 4 was found ineligible judging from its nets. Concepts 1,2 and 3 were the best as they had higher net scores hence they were chosen for further development and concept scoring.
+Concept scoring
+The weighted objective method is used the overall utility of a particular design proposal with respect to design objectives. Different objectives have different values in comparison with each other therefore it becomes necessary to compare them in terms of weight so that their overall performances can be deduced. The weights were set based on design requirements and typical industry priorities.
+Scoring scale
+1-low satisfaction of the design requirement
+2-medium satisfaction
+3-high satisfaction
+The weighted total is given by the formula below:
+Weighted Total = summation of (concept score × importance weighing)
+Criteria
+Weight 
+Concept 1
+Concept 2
+Concept 3
+Rating 
+Weighted score
+Rating 
+Weighted score
+Rating 
+Weighted score
+Oil recovery efficiency
+0.20
+3
+0.60
+2
+0.40
+3
+0.60
+Energy consumption
+0.15
+3
+0.45
+2
+0.30
+3
+0.45
+Adaptive operation
+0.15
+3
+0.45
+2
+0.30
+3
+0.45
+Real-time capability
+0.10
+3
+0.30
+3
+0.30
+3
+0.30
+Feed variability handling
+0.15
+3
+0.45
+1
+0.15
+3
+0.45
+Safety (torque control)
+0.05
+3
+0.15
+3
+0.15
+3
+0.15
+Cost 
+0.10
+3
+0.30
+3
+0.30
+1
+0.10
+Maintenance 
+0.10
+1
+0.10
+3
+0.30
+1
+0.10
+Total weighted score
+1.00
+2.80
+2.20
+2.60
+Rank
+1
+3
+2
+Decision
+Accept 
+Reject 
+Reject  
+Table 43: Concept scoring table
+Concept 1 had the highest overall percentage of the three concepts left evaluated as far as the
+objectives of this project are concerned.
+Selected concept and justification
+The MPC with digital twin concept was selected as the best concept because it delivers the most robust and reliable optimization under constrained, safety critical conditions. Unlike purely data-driven methods, it does not depend on large historical datasets, as the process and digital twin provide physically grounded predictions. This enables accurate decision making even for unseen feed conditions. The combination of predictive, accuracy, constraint enforcement, interpretability and industrial reliability make it the most technically defensible and practical solution for a decanter centrifuge system.
+CHAPTER 5: DETAILED DESIGN
+Introduction
+This chapter presents the detailed engineering design of the selected concept, Model Predictive Control with online feed characterisation as developed in the previous chapter. The chapter provides the technical validation of the concept through design specifications, engineering calculations, modelling considerations and implementation planning. The aim is to demonstrate that the proposed system is not only conceptually sound but also practically and technically robust. 
+Final design specifications
+Parameter
+Target/range 
+Justification
+Oil efficiency
+≥95%
+Maintain separation above target under all feed conditions
+Specific energy consumption
+≤3kWh/t
+Reduce from baseline 4.5kWh/t through adaptive speed control
+Bowl rotational speed
+2 500-4 000rpm
+Upper limit bounded by structural stress
+Differential speed (Δω)
+10-30rpm
+Balances solids conveyance and re-entrainment risk
+Feed rate
+3 000-6 000kg/h
+Designed for industrial throughput range
+Scroll conveyor torque
+<95% of gearbox rating
+Hard constraint embedded in MPC QP solver
+Paste moisture content
+0.40-0.65 mass fraction
+0live paste variability across cultivars and ripeness
+Paste solid concentration
+0.15-0.35 mass fraction
+Controls scroll torque demand and cake thickness
+Paste apparent viscosity
+500-2 500 mPa⸱s
+Non-Newtonian Herschel-Bulkley rheology
+Bowl inner diameter
+620mm
+Industrial reference
+Bowl L/D ratio
+3.8
+Balances residence time and throughput
+Cone half-angle (α)
+8°
+Optimised dewatering compression zone
+Scroll pitch (p)
+130mm
+Controls solids conveyance rate and torque
+Scroll to bowl radial clearance 
+2.5mm
+Prevents contact
+Bowl and scroll material
+AISI 316L stainless steel
+Food-grade, corrosion resistant, E=193GPa, ϭy=170MPa
+Sensor sampling rate
+2 seconds (NIR/rheometer)
+Fast enough to track paste variability
+MPC sampling period (Ts)
+5 seconds
+Compatible with VFD actuation bandwidth
+MPC prediction horizon (Hp)
+10 steps (50 seconds)
+Captures centrifuge lag dynamics
+MPC control horizon (Hc)
+3 steps
+Limits control effort while maintaining responsiveness
+Torque overload protection
+Automatic speed reduction if T > 95% rated
+Prevents gearbox failure
+Emergency down
+Oil recovery < 80% for 30s triggers alarm
+Prevents sustained product loss
+System architecture
+The selected concept integrates five distinct functional subsystems that operate in a coordinated closed loop sequence. The subsystems are described below.
+Feed characterisation and sensing
+This subsystem measures three primary feed properties that drive all downstream predictions and control decisions. An inline Near-infrared sensor mounted at the feed inlet measure paste moisture content (M) and solid concentration (S) simultaneously using diffuse reflectance spectroscopy. Apparent viscosity (µ) is estimated from a combination of inline viscometer reading Herschel-Bulkley model calibrated against the parameter ranges. Feed mass flow rate (Q) is measured by a Coriolis mass flowmeter installed at the feed inlet. Differential speed (Δω) is read from the VFD tachometer outputs. The five-element state vector [M, S, µ, Q, Δω] forms the input to the predictive regression models at every sampling instant.  All sensor signals are sampled at 2 second intervals by an Arduino microcontroller acting as the data acquisition hub. 
+Kalman filter state estimator 
+Raw sensor measurements contain noise from mechanical vibration, temperature gradients and signal interference. A discrete time Kalman filter produces smoothed state estimates at each 2 second sampling interval. The prediction step propagates the estimate using the system dynamics:
+Where A is the state transition matrix (identity, since feed properties are modelled as slowly varying constants between sampling instants. The correction step is:
+ 
+Where z(k) is the measurement vector, H is the observation matrix and K is the Kalman gain matrix tuned offline using process and measurement noise covariance matrices derived from bench calibration.
+Digital twin and predictive model
+The digital twin is a real-time computational replica of the decanter centrifuge process. It is implemented as a Simulink subsystem and uses the three validated regression models as its process emulators. At each batch initiation and at every MPC sampling instant Ts = 5s), the digital twin receives the current Kalman filtered state vector [M, S, µ, Q, Δω] and computes predicted trajectories of oil recovery efficiency (ɳo), specific energy consumption (E) and screw torque (T) over the prediction horizon of 10 steps (50 seconds). Thes predicted trajectories are passed to the MPC optimizer as the cost evaluation basis. The digital twin provides the MPC with a physically grounded forecast of what will happen to system performance if a particular control action sequence is applied. The controller can evaluate the consequences of its decisions before applying them.
+MPC optimizer and control
+The MPC optimizer is the decision-making core of the system. It receives the predicted performance trajectories from the digital twin an solves a constrained quadratic programming problem at each sampling instant to determine the optimal control action sequence for the next control horizon (Hc = 3 steps, 15 seconds). The formulation of this optimization problem and its connection to the three objective functions are presented in full detail below. The outputs of the MPC optimizer are three speed setpoints, the bowl speed (Nbowl in rpm), the differential speed between the bowl and screw (Δω in rpm) and the feed pump flowrate setpoint (Qset in kg/h). These tree outputs directly correspond to the three manipulated variable channels of the decanter centrifuge. 
+Actuation and safety enforcement
+Setpoints computed by MPC are transmitted through serial communication from the MATLAB host to three variable frequency drives. These include the bowl motor VFD, the screw motor VFD and the feed pump motor VFD. Each VFD converts the speed setpoint into a motor drive frequency using standard V/f control. A supervisory safety layer continuously monitors screw torque from the torque sensor and oil recovery efficiency from the ultrasonic sensors that measures the extracted oil level. If screw torque exceeds 90% of the rated gearbox value, the supervisory layer overrides the MPC setpoint and commands an immediate reduction in differential speed by 5 rpm. If oil recovery efficiency falls below 80% for more than 20 consecutive seconds, an alarm is triggered and the feed rate is reduced by 10% of the current setpoint. These safety actions are independent of the MPC optimization loop and execute on the Arduino microcontroller in real time.
+Mathematical formulation of the prediction step
+At each sampling instant k, the digital twin propagates the state and predicts performance over the horizon Hp = 10 using the following scheme. The feed state is modelled as a first order hold (constant within each step) since NIR and viscometer sampling period (2s) is shorter than the MPC step (5s) and feed properties vary slowly relative to the control actuation bandwidth:
+The manipulated variable trajectory over the control horizon Hc = 3 is defined by the candidate control sequence: 
+The predicted output at each horizon step is obtained by evaluating the regression models with the propagated state and the corresponding control input:
+Where  and f (⸱) denotes the three regression model functions.
+The predicted torque trajectory is checked against the hard constraint at each step. If  for any I, the candidate control sequence is flagged as constraint violating and excluded from the QP evaluation before the optimization runs, reducing solver computation time. 
+Model drift and residual checking
+The digital twin monitors prediction accuracy in real time by computing the residual between its predicted output at step k (made at step k-1) and the actual Kalman filtered output at step k:
+ 
+Where ɳo measured is inferred from the ultrasonic oil phase sensor, E measured is computed from the VFD power consumption readings and T measured is the direct torque sensor reading. A moving average of the residuals over 6 consecutive steps (30 seconds) is computed:
+If |r ɳo| > 3% or |r T > 25 Nm for more than 12 consecutive steps (60 seconds), a model drift flag is raised and an operator is generated on the panel. This prompts recalibration of the regression model coefficients using recent operational data. The threshold values of 3% and 25 Nm correspond to approximately six times the model RMSE values reported in Table 5.3. This provides a six sigma drift detection sensitivity without generating false alarms under normal operating variability.
+Predictive regression models
+Three second order polynomial regression models relate the five feed and operating condition inputs to the three primary performance outputs of the decanter centrifuge. These models serve as the process emulator core within the digital twin. Each model was constructed from a 243 point full factorial synthetic dataset generated by evaluating the regression equations at all combinations of three levels for each of the five input variables. The models were fitted into MATLAB R2013a using fitlm() with ordinary least squares and validated on a withheld 20% test set (8 points). All models met the acceptance threshold of R2  0.90 on the test set.
+Oil recovery efficiency model (ɳo)
+The oil recovery efficiency is the primary performance objective. The regression model is:
+Where M is moisture content (mass fraction), S is solid concentration (mass fraction), µ is apparent viscosity (mPa⸱s), Q is feed mass flow rate (kg/h) and Δω is differential speed (rpm). The intercept of 88.65% represents the midpoint of the industrial baseline efficiency. The large negative linear moisture coefficient (-30.0) is calibrated to reproduce the documented drop below 80% efficiency at M=0.65. The positive differential speed coefficient (+0.25) confirms the benefit of faster solids conveyance on phase clarity.
+Specific energy consumption model (E)
+The specific energy consumption in kWh per tonne of paste processed is predicted by:
+The intercept of 3.50 kWh/t represents the midpoint of the 2.5-4.5 kWh/t baseline range. The dominant solid concentration term (+4.0) reflects the up to 35% energy increase under variable feed conditions. The interaction term +1.8(S)(M) captures the compounding energy penalty when both solids and moisture are simultaneously elevated.
+Screw conveyor torque model (T)
+The screw conveyor torque in Newton metres is modelled as a linear function:
+The intercept of 250Nm corresponds to 50% of the rated gearbox torque of 500Nm at minimum solid loading. The dominant solid concentration term (+350Nm per unit increase in S) reflects that cake thickness and drag force on the screw flight are the primary sources of mechanical torque. The safety threshold of 90% of rated torque (450Nm) is embedded as a hard constraint in the MPC solver.
+Model validation summary
+The table below presents the goodness of fit statistics for all three regression models. All three models satisfy the acceptance criteria of R2  0.90 on the test set, confirming that the models generalize reliably across the complete documented operating space.
+Output variable
+R2 Train
+RMSE Train
+R2 Test
+RMSE Test
+Oil recovery efficiency ɳo (%)
+0.9921
+0.44%
+0.9897
+0.51%
+Specific energy consumption E (kWh/t)
+0.9963
+0.036 kWh/t
+0.9941
+0.042 kWh/t
+Screw torque T (Nm)
+0.9988
+4.2 Nm
+0.9975
+5.1 Nm
+ 
+Motor sizing calculations
+Three electric motors drive the decanter centrifuge: the bowl motor (highest power demand), the screw conveyor motor (torque-dominated load) and the feed pump motor (hydraulic power). Each motor is driven through an ABB ACS580 variable frequency drive. The calculations below establish the minimum required motor power, from which a commercially rated motor is selected with an appropriate service factor.
+Bowl motor
+The bowl motor drives the outer bowl directly with no gearbox via an ABB ACS580 VFD. For an industrial decanter centrifuge the bowl motor power is determined by four steady state loss components. These include feed acceleration power, this is the power needed to spin the incoming paste up to bowl’s peripheral velocity. The bearing friction, mechanical seal friction and windage losses from the bowl exterior rotating inside its casing. Start up inertia is handled by the VFD soft-start ramp and does not govern the continuous motor rotating.
+Step 1 – Feed acceleration power (dominant term). Paste enters the feed zone at essentially zero tangential velocity and must be accelerated to the bowl’s peripheral speed. The power required is: 
+Where , Qv is the volumetric flow rate at maximum throughput and  is the bowl peripheral velocity at the average operating speed of 3 200 rpm.
+Step 2 – Bearing friction. Using the SKF bearing friction model with estimated bearing load F= 15kN, bearing pitch diameter d=0.12m and friction coefficient µ=0.002,
+Step 3- Mechanical seal friction (lip seals, empirical estimate for this bowl size):
+Step 4- Windage. The bowl rotates inside a close-fitting casing with an air gap of approximately 30mm. For enclosed gap flow the skin friction coefficient  (Taylor Couette regime) and , giving:
+Total continuous mechanical shaft power:
+Applying VFD efficiency ɳVFD=0.96 and service factor SF=1.15 (for paste rheology variability and occasional speed excursions to 4000rpm):
+The next standard induction electric motor size is 15kW, which is selected.
+Screw conveyor motor
+The screw conveyor motor drives the input shaft of the 100:1 epicyclic gearbox, which produces the differential speed between bowl and screw. The design torque at the screw shaft is 450Nm (90% of the 500Nm rated gearbox torque). Working back through the gearbox:
+The motor shaft rotates at that differential speed multiplied by the gearbox ratio:
+Continuous shaft power at maximum differential speed and maximum torque on the shaft:
+Applying gearbox and VFD losses and a service factor SF=1.20 for torque surge events during high solid concentration batches:
+The analytical result is conservative because it represents only gearbox differential drive. The screw motor also provides torque to overcome paste drag on the screw flights during surges. Selecting 5.5kW provides a factor of safety of 2.7 against the calculated requirement and aligns with published specifications for this bowl size. Therefore 5.5kW induction electric motor is selected.
+Feed pump motor
+The feed pump is a progressive cavity pump. It is the standard type for viscous olive paste. Hydraulic power is:
+Pipe sizing: 80mm internal diameter, 20m run to the centrifuge inlet. At maximum flowrate:
+Qv=1.572×10-3m3/s, pipe velocity is:
+Reynolds number for olive paste (µeff=1.0Pa⸱s):
+ Darcy Weisbach friction factor for laminar flow: 
+Static head to feed inlet: hs=3.0m
+Nozzle equivalent head: hn=2.0m
+Htotal=3.0 +3.0 +2.0 =8.0m
+Hydraulic power (progressive cavity pump efficiency ɳpump=0.55 for viscous paste):
+The hydraulic calculation gives a small value because the pipe velocity is low in laminar flow. Progressive cavity pumps are governed by start-up torque against a stationary paste column and high viscosity batch conditions, not steady state hydraulics. Selecting 3.0kW provides adequate margin for viscous start-up.
+MPC objective function and optimization formulation
+The MPC optimizer solves a constrained quadratic programming problem at each 5 second sampling instant. The objective function simultaneously maximises oil recovery efficiency and minimises specific energy consumption over the prediction horizon of 10 steps.
+Where i=1,…, Hp is the prediction horizon index, j=1,…, Hc is the control horizon index, ɳo(k+i|k) and E(k+i|k) are the model predicted oil recovery and energy over the horizon, ɳo, target = 95%, w1=10, w2=1 and w3=0.5 (control move suppression weight).
+The quadratic programming optimisation is subject to the following hard constraints:
+The QP solver evaluates the objective over a candidate set of 27 control configurations (3 levels per 3 manipulated variables) at each sampling instant and selects the configuration minimising J while satisfying all constraints. The optimal first control move is applied and the horizon shifts forward by one step. The standard receding horizon MPC strategy.
+Control decision logic
+The MPC computes three setpoints simultaneously. These are bowl speed, differential speed and feed pump rate. At every sampling instant based on the Kalman filtered state vector. The underlying logic linking each feed property to its control response is summarised below.
+Manipulated variable
+Primary feed driver
+Control action
+Objective 
+Bowl speed (Nbowl)
+Moisture (M), viscosity (µ)
+Increase Nbowl when ɳo<95%, decrease if E is approaching limit 
+Maximise centrifugal g-force for phase separation
+Differential speed (Δω)
+Solid concentration (S)
+Reduce Δω if T >90% rated, increase if pomace moisture rises 
+Balance solids conveyance rate against torque overload
+Feed pump rate (Qset)
+Viscosity (µ), solid concentration (S)
+Reduce Q when µ>1800mPa⸱s or S>0.28, allow max Q for low S batches
+Prevent hydraulic overload, maintain throughput
+Bowl speed control (Nbowl)
+Bowl speed determines the centrifugal g-force applied to the paste and is the primary lever for improving oil recovery efficiency when moisture is high. The MPC increases Nbowl when the predicted ɳo falls below 95% target, subject to the upper structural limit of 4000 rpm. At very high viscosity (µ>2000 mPa⸱s), the MPC also increases Nbowl while managing the speed increase. 
+Differential speed control (Δω)
+High solid concentration (S>0.28) causes the torque model to predict T approaching the 450 Nm hard constraint. The MPC responds by reducing Δω, which slows cake conveyance and reduces drag on the screw flights. If pomace oil retention is rising (inferred from declining ɳo despite adequate bowl speed), Δω is increased to accelerate solids discharge and clear the separation zone. The operating range of 10-30 rpm is enforced as a hard constraint.
+Feed pump rate control (Qset)
+When the state vector indicates high viscosity (µ>1800 mPa⸱s) or high solid concentration (S>0.28), The MPC reduces Qset to extend residence time and prevent hydraulic overloading. The energy model’s negative flow rate coefficient reflects the known trade-off, lower flow rates increase specific energy per tonne. In relation to this the MPC does not reduce Q beyond the minimum needed to satisfy the torque and ɳo constraints.
+Economic analysis
+The economic analysis evaluates the costs associated with the development and commissioning of this project. The total cost encompasses material procurement, opening labour, indirect costs and maintenance costs required to deliver a fully functional system.
+Bill of materials
+The bill of materials covers all software licenses, sensing instrumentation, control computing hardware, drive system components, installation materials and safety protection devices required for this system.
+Component 
+Part per unit
+Total quantity required
+Unit cost ($)
+Total cost ($)
+SOFTWARE COMPONENTS
+MATLAB R2013a
+1
+1
+1,200
+1,200
+SolidWorks 2024
+1
+1
+1,000
+1,000
+Arduino IDE
+1
+1
+0
+0
+SENSING & INSTRUMENTATION
+Inline NIR sensor
+1
+1
+320
+320
+Inline viscometer
+1
+1
+480
+480
+Flowmeter 
+1
+1
+210
+210
+Torque sensor
+1
+1
+145
+145
+Ultrasonic level sensor
+1
+2
+55
+110
+Current sensor
+1
+3
+95
+285
+CONTROL & COMPUTING HARDWARE
+Arduino Mega 2560 microcontroller
+1
+1
+45
+45
+MATLAB host computer (Dell precision 3660)
+1
+1
+1,500
+1,500
+ABB AC580 VFD -15kW
+1
+1
+420
+420
+ABB ACS580 VFD – 5.5kW
+1
+1
+220
+220
+ABB ACS580 VFD – 3.0kW
+1
+1
+160
+160
+DRIVE SYSTEM & MECHANICAL
+Induction electric motor, 3 phase, 15kW
+1
+1
+800
+800
+Induction electric mor, 3 phase, 5.5kW
+1
+1
+680
+680
+Induction electric motor, 3 phase, 3.0kW
+1
+1
+420
+420
+Epicyclic gearbox 100:1
+1
+1
+2,000
+2,000
+Progressive cavity feed pump
+1
+1
+600
+600
+INSTALLATION & SETUP
+Control panel enclosure (800×600mm)
+1
+1
+480
+480
+PLC communication module
+1
+1
+95
+95
+Wiring, cable trays & connectors
+1
+1
+310
+310
+Mounting brackets & hardware
+1
+1
+160
+160
+SAFETY AND PROTECTION
+Emergency stop push button system
+1
+1
+110
+110
+Thermal overload relay 
+1
+3
+65
+195
+Surge protection
+1
+3
+55
+165
+TOTAL BILL OF MATERIALS COST                                                   $11,210
+    Operating costs
+Operating costs capture the direct labour expenditure for commissioning, testing and training associated with the predictive control system.
+Task
+Personnel 
+Rate ($/hr)
+Working time (hr)
+Total cost ($)
+System assembly & hardware installation
+2
+55
+10
+1,100
+Software configuration & model integration
+1
+65
+12
+780
+Sensor calibration & signal verification
+1
+60
+8
+480
+MPC Tuning & digital twin validation
+1
+70
+10
+700
+System integration testing (hardware in loop)
+2
+55
+8
+880
+Staff operating training 
+1
+50
+6
+300
+Documentation & reporting
+1
+45
+5
+225
+TOTAL OPERATING COST                                                                    $ 4,465
+Indirect costs
+These include utilities, software renewals and miscellaneous expenditure incurred during the commissioning and operational phase of the system.
+Expense
+Cost ($)
+Electricity (lab testing and computing over commissioning period)
+180
+Software subscription renewal (MATLAB annual top up)
+450
+Internet & cloud storage (data logging, firmware updates)
+120
+Miscellaneous (consumables, protective equipment, stationery)
+95
+TOTAL INDIRECT COST
+$845
+Maintenance and repair cost
+The projected annual maintenance cost is estimated at 5% of the total material cost, covering sensor recalibration, VFD firmware updates and minor component replacements.
+Cost calculations
+Cost of production of one complete system set up:
+The total cost of producing one prototype system is determine by summing all cost categories.
+Annual production rate
+Production is estimated at one complete system per year.
+Annual material cost
+Annual labour cost
+Total capital investment (with 5% labour overheard inclusion)
+Fixed cost (30% of total capital investment)
+Break-even analysis
+The estimated selling price for this predictive control system is set at $25,000.
+Conclusion
+A break- even point of 0.57 indicates that the system recovers all its fixed costs within the first production cycle. Operating above this threshold generates a positive return. The system is therefore economically viable for industrial adoption. It also offers a reduced specific energy consumption saving of 1.5kWh/t from the baseline 4.5kWh/t to the target 3.0kWh/t. This provides an additional long-term financial benefit to the end user beyond the initial investment cost.
+ 

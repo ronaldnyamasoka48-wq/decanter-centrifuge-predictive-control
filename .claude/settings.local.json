@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where arduino-cli *)",
+      "Bash(arduino-cli version *)"
+    ]
+  }
+}
