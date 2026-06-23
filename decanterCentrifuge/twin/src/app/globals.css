@@ -1,0 +1,107 @@
+
+@import "tailwindcss";
+
+@theme {
+  --color-background: #020714;
+  --color-foreground: #f1f5f9;
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono), 'Fira Code', monospace;
+
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+}
+
+:root {
+  --background: 222 84% 4%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 7%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 47% 7%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 198 100% 50%;
+  --primary-foreground: 222 84% 4%;
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 85% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214 32% 12%;
+  --input: 214 32% 12%;
+  --ring: 198 100% 50%;
+  --radius: 0.75rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: #020714;
+  color: #f1f5f9;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #020714; }
+::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #00d4ff33; }
+
+/* Monospace font for numbers */
+.font-mono {
+  font-family: var(--font-mono), 'Fira Code', monospace !important;
+}
+
+/* ── Shadcn / base-ui slider overrides ── */
+[data-slot="slider-track"] {
+  background: #0f2030 !important;
+  height: 4px;
+  border-radius: 9999px;
+}
+[data-slot="slider-range"] {
+  background: linear-gradient(90deg, #00d4ff, #7c3aed) !important;
+}
+[data-slot="slider-thumb"] {
+  background: #00d4ff !important;
+  border: 2px solid #020714 !important;
+  box-shadow: 0 0 10px #00d4ff66 !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+[data-slot="slider-thumb"]:hover {
+  box-shadow: 0 0 16px #00d4ffaa !important;
+}
+[data-slot="slider-control"] {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 6px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+/* ── Badge overrides ── */
+.badge-outline {
+  border: 1px solid currentColor;
+  background: transparent;
+}
+
+/* ── Animated gradient border ── */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(0, 212, 255, 0.15); }
+  50%       { border-color: rgba(0, 212, 255, 0.35); }
+}
+.border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
+}
